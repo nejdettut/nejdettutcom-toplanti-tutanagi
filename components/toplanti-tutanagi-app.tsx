@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AudioCapture } from "@/components/audio-capture";
 
 type Kind = "resmi" | "proje" | "ekip" | "egitim" | "veli-okul" | "genel";
 type Priority = "dusuk" | "orta" | "yuksek";
@@ -234,14 +235,20 @@ export function ToplantiTutanagiApp() {
               </p>
             </div>
 
-            <div>
+            <div className="space-y-2">
               <label className={cn("mb-1.5 block text-xs font-semibold uppercase tracking-wider", MUTED_TEXT)}>
                 Serbest notlar / transcript
               </label>
+              <AudioCapture
+                disabled={loading}
+                onTranscript={(text) =>
+                  setRawNotes((prev) => (prev ? `${prev}\n\n${text}` : text))
+                }
+              />
               <textarea
                 value={rawNotes}
                 onChange={(e) => setRawNotes(e.target.value)}
-                placeholder="Toplantı sırasında aldığın notları ya da ses kaydından dönüştürülmüş metni buraya yapıştır."
+                placeholder="Toplantı sırasında aldığın notları, yapıştır ya da yukarıdan ses kaydı/dosya yükleyerek otomatik yazdır."
                 className="block h-56 w-full resize-y rounded-lg border border-slate-300 bg-white p-3 text-xs leading-relaxed dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
               />
             </div>
